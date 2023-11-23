@@ -1,0 +1,23 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+unsigned char* extractPayload(unsigned char input_array[], int length) {
+    unsigned char* payload;
+    int payload_length = length - 5; // Subtracting command and length bytes
+        payload = (unsigned char*)malloc(payload_length * sizeof(unsigned char));
+        for (int i = 4, j = 0; i < length; i++, j++) {
+        payload[j] = input_array[i];
+    }
+    return payload;
+}
+int main() {
+    unsigned char input_array[] = {00, 02, 00, 11, 01, 01, 02, 03, 04, 05, 06, 07, 08, 09, 10};
+    int input_length = sizeof(input_array) / sizeof(input_array[0]);
+    
+    unsigned char* output_data = extractPayload(input_array, input_length);
+       for (int i = 0; i < input_length - 5; i++) {
+        printf("%02X ", output_data[i]);
+    }
+        free(output_data);
+    return 0;
+}
